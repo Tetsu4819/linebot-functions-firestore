@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions";
 import {
-  Client,
+  // Client,
   SignatureValidationFailed,
   TextMessage,
   validateSignature,
@@ -11,10 +11,10 @@ import * as admin from "firebase-admin";
 admin.initializeApp();
 const db: FirebaseFirestore.Firestore = admin.firestore();
 
-const client: Client = new Client({
-  channelAccessToken: functions.config().line.channel_access_token,
-  channelSecret: functions.config().line.channel_secret,
-});
+// const client: Client = new Client({
+//   channelAccessToken: functions.config().line.channel_access_token,
+//   channelSecret: functions.config().line.channel_secret,
+// });
 
 export const lineWebhook = functions
   .region("asia-northeast1")
@@ -51,12 +51,13 @@ const lineEventHandler = (event: WebhookEvent) => {
       //write to firestore
       db.collection("messages").add(message);
 
-      // reply echo message
-      const reply: TextMessage = {
-        type: "text",
-        text: "send message!",
-      };
-      return client.replyMessage(event.replyToken, reply);
+      // reply
+      // const reply: TextMessage = {
+      //   type: "text",
+      //   text: "send message!",
+      // };
+      // return client.replyMessage(event.replyToken, reply);
+      return;
     } else {
       return Promise.resolve(null);
     }
